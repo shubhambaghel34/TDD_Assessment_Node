@@ -1,11 +1,11 @@
 # TDD_Assessment_Node
 
 # Features
-1.Percentage Discount: Apply a percentage discount on the base price.
-2.Fixed Amount Discount: Apply a fixed amount discount on the base price.
-3.Quantity Handling: Handle zero or negative quantities by returning zero.
-4.Error Handling: Return zero for invalid input (e.g. negative base price).
-5.TDD for API based function where(Jsonplaceholder is used)
+- Percentage Discount: Apply a percentage discount on the base price.
+- Fixed Amount Discount: Apply a fixed amount discount on the base price.
+- Quantity Handling: Handle zero or negative quantities by returning zero.
+- Error Handling: Return zero for invalid input (e.g. negative base price).
+- TDD for API based function where(Jsonplaceholder is used)
 
 To run this project first install dependencies
 ```
