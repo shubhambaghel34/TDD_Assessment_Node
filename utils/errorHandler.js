@@ -1,4 +1,3 @@
-// utils/errorHandler.js
 
 /**
  * Format error messages to make them more user-friendly.
