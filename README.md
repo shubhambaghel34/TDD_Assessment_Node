@@ -10,6 +10,8 @@ To run this project first install dependencies
 ```
 npm intall
 
+npx mocha test/app.test.js
+
 ```
 
 ### A typical top-level directory layout
