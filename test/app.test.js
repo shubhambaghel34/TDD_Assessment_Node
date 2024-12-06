@@ -1,9 +1,11 @@
 
 import { expect } from 'chai';  
-import calculateTotalPrice from '../app.js';
+import { calculateTotalPrice, fetchPosts } from '../app.js'
+import axios from 'axios';
+import sinon from 'sinon';
 
 
-describe('Product Price Calculator', () => {
+  describe('Product Price Calculator', () => {
 
     it('should apply a percentage discount correctly', () => {
       const result = calculateTotalPrice(100, 2, 0.1, 5);
@@ -45,4 +47,89 @@ describe('Product Price Calculator', () => {
       expect(result).to.equal(0);  // (100 - 100%) * 2 + 0 = 0
     });
   
+  });
+
+  describe('JSONPlaceholder API - Successful Response', () => {
+    let axiosGetStub;
+  
+    const mockPosts = [
+      { id: 1, title: 'Post 1', body: 'This is the first post' },
+      { id: 2, title: 'Post 2', body: 'This is the second post' }
+    ];
+  
+    beforeEach(() => {
+      axiosGetStub = sinon.stub(axios, 'get').resolves({ data: mockPosts });
+    });
+  
+    afterEach(() => {
+      axiosGetStub.restore();
+    });
+  
+    it('should fetch posts from JSONPlaceholder and return valid data', async () => {
+      const posts = await fetchPosts();
+      expect(posts).to.be.an('array');
+      expect(posts).to.have.lengthOf(2);
+      expect(posts[0]).to.have.property('id', 1);
+      expect(posts[0]).to.have.property('title', 'Post 1');
+    });
+  });
+  
+  describe('JSONPlaceholder API - Empty Response', () => {
+    let axiosGetStub;
+  
+    beforeEach(() => {
+      axiosGetStub = sinon.stub(axios, 'get').resolves({ data: [] });
+    });
+  
+    afterEach(() => {
+      axiosGetStub.restore();
+    });
+  
+    it('should return an empty array if the API returns no posts', async () => {
+      const posts = await fetchPosts();
+      expect(posts).to.be.an('array');
+      expect(posts).to.have.lengthOf(0);
+    });
+  });
+  
+  describe('JSONPlaceholder API - Error Handling', () => {
+    let axiosGetStub;
+  
+    beforeEach(() => {
+      axiosGetStub = sinon.stub(axios, 'get').rejects(new Error('Network error'));
+    });
+  
+    afterEach(() => {
+      axiosGetStub.restore();
+    });
+  
+    it('should throw an error if the API request fails', async () => {
+      try {
+        await fetchPosts();
+      } catch (error) {
+        expect(error.message).to.equal('Could not fetch posts');
+      }
+    });
+  });
+  
+  describe('JSONPlaceholder API - Unexpected Data', () => {
+    let axiosGetStub;
+  
+    const mockMalformedData = [
+      { randomField: 'Random value', anotherField: 123 }
+    ];
+  
+    beforeEach(() => {
+      axiosGetStub = sinon.stub(axios, 'get').resolves({ data: mockMalformedData });
+    });
+  
+    afterEach(() => {
+      axiosGetStub.restore();
+    });
+  
+    it('should handle malformed data from the API gracefully', async () => {
+      const posts = await fetchPosts();
+      expect(posts).to.be.an('array');
+      expect(posts[0]).to.not.have.property('id');
+    });
   });
