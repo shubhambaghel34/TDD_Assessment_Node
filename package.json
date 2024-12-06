@@ -4,18 +4,22 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --require @babel/register --recursive",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "devDependencies": {
+    "axios": "^1.7.9",
     "chai": "^5.1.2",
     "esm": "^3.2.25",
+    "mocha": "^11.0.1",
     "sinon": "^19.0.2"
   },
   "dependencies": {
-    "axios": "^1.7.9"
+    "@babel/register": "^7.25.9",
+    "express": "^4.21.2"
   }
 }
