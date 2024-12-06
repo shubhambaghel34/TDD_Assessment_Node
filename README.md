@@ -5,6 +5,7 @@
 2.Fixed Amount Discount: Apply a fixed amount discount on the base price.
 3.Quantity Handling: Handle zero or negative quantities by returning zero.
 4.Error Handling: Return zero for invalid input (e.g. negative base price).
+5.TDD for API based function where(Jsonplaceholder is used)
 
 To run this project first install dependencies
 ```
@@ -30,5 +31,5 @@ npx mocha test/app.test.js
 
 This project is used by the following companies:
 
-- app.js: Contains the business logic for calculating the total price.
+- app.js: Contains the business logic for calculating the total price and API based function
 - test/app.test.js: Contains the Mocha tests for the calculator.
