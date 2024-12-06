@@ -8,17 +8,23 @@
  */
 function calculateTotalPrice(basePrice, quantity, discount, shippingFee) {
    
-    if (basePrice <= 0 || quantity <= 0) return 0;  // Invalid base price or quantity
-    
+    if (basePrice <= 0 || quantity <= 0) return 0; 
+  
+    // If discount is 100% (discount = 1), return only shipping fee if provided, else return 0
+    if (discount === 1) {
+      return shippingFee > 0 ? shippingFee : 0;
+    }
+  
     // If discount is a percentage (0 <= discount < 1), apply the percentage discount
     if (discount < 1) {
       const discountAmount = basePrice * discount;
       return (basePrice - discountAmount) * quantity + shippingFee;
     }
-    
+  
     // If discount is >= 1, treat it as a fixed discount amount
     return (basePrice - discount) * quantity + shippingFee;
   }
   
   export default calculateTotalPrice;
+  
   
