@@ -1,26 +1,23 @@
-function calculateTotalPrice(basePrice, quantity, discount, taxRate) {
-    if (basePrice <= 0 || quantity <= 0) {
-      return 0;
-    }
-  
-    // percentage discount
-    let discountAmount = 0;
+/**
+ * Calculate the total price for a product with discount and shipping fee.
+ * @param {number} basePrice - The base price of the product.
+ * @param {number} quantity - The quantity of the product being purchased.
+ * @param {number} discount - The discount (percentage as a decimal or fixed discount).
+ * @param {number} shippingFee - The shipping fee applied to the total price.
+ * @returns {number} - The total price after applying the discount and adding the shipping fee.
+ */
+function calculateTotalPrice(basePrice, quantity, discount, shippingFee) {
+   
+    if (basePrice <= 0 || quantity <= 0) return 0;  // Invalid base price or quantity
+    
+    // If discount is a percentage (0 <= discount < 1), apply the percentage discount
     if (discount < 1) {
-      discountAmount = basePrice * discount;  // Percentage discount
-    } else {
-      discountAmount = discount; // Fixed amount discount
+      const discountAmount = basePrice * discount;
+      return (basePrice - discountAmount) * quantity + shippingFee;
     }
-  
-    const discountedPrice = basePrice - discountAmount;
-  
-    // total price before tax
-    const totalBeforeTax = discountedPrice * quantity;
-  
-    // tax
-    const taxAmount = totalBeforeTax * (taxRate / 100);
-  
-    //final price after adding tax
-    return totalBeforeTax + taxAmount;
+    
+    // If discount is >= 1, treat it as a fixed discount amount
+    return (basePrice - discount) * quantity + shippingFee;
   }
   
   export default calculateTotalPrice;
